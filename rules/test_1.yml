@@ -1,24 +1,46 @@
-type.inbound
+name: "Kujo_copy_Suspicious inbound: URL shortener + auth fail + reply-to mismatch + urgent language"
+description: "Detects likely credential phishing using a URL shortener, auth failures, and sender mismatch signals plus urgency language."
+type: rule
+severity: high
+source: |
+  type.inbound
 
-// URL shortener link in body (uses built-in $url_shorteners list)
-and any(body.links, .href_url.domain.root_domain in $url_shorteners)
+  // URL shortener link in body (uses built-in $url_shorteners list)
+  and any(body.links, .href_url.domain.root_domain in $url_shorteners)
 
-// Sender / return-path mismatch
-and sender.email.email != headers.return_path.email
+  // Sender / return-path mismatch
+  and sender.email.email != headers.return_path.email
 
-// Reply-to differs from sender (classic BEC/phish pattern)
-and headers.reply_to.email is not null
-and headers.reply_to.email != sender.email.email
+  // Reply-to differs from sender (classic BEC/phish pattern)
+  and headers.reply_to.email is not null
+  and headers.reply_to.email != sender.email.email
 
-// Any authentication failures (spoof-y)
-and (
-  not headers.auth_summary.spf.pass
-  or not headers.auth_summary.dmarc.pass
-  or 'fail' in~ distinct(map(headers.hops, .authentication_results.dkim))
-)
+  // Any authentication failures (spoof-y)
+  and (
+    not headers.auth_summary.spf.pass
+    or not headers.auth_summary.dmarc.pass
+    or 'fail' in~ distinct(map(headers.hops, .authentication_results.dkim))
+  )
 
-// Urgency / action language in subject or current thread text
-and (
-  regex.icontains(subject.subject, "(urgent|action required|verify|password|reset|invoice)")
-  or regex.icontains(body.current_thread.text, "(urgent|action required|verify|password|reset|invoice)")
-)
+  // Urgency / action language in subject or current thread text
+  and (
+    regex.icontains(subject.subject, "(urgent|action required|verify|password|reset|invoice)")
+    or regex.icontains(body.current_thread.text, "(urgent|action required|verify|password|reset|invoice)")
+  )
+tags:
+  - phishing
+  - url-shortener
+attack_types:
+  - Credential Phishing
+tactics_and_techniques:
+  - Social engineering
+  - Spoofing
+detection_methods:
+  - URL analysis
+  - Header analysis
+  - Content analysis
+false_positives:
+  - "Legitimate marketing emails using URL shorteners with unusual reply-to handling (rare)."
+  - "Forwarding services that rewrite return-path and reply-to."
+references:
+  - "https://docs.sublime.security/docs/common-snippets"
