@@ -1,0 +1,19 @@
+name: "Inbound: DMARC fail with mismatched link"
+description: "Flags inbound messages that fail DMARC and contain at least one mismatched link (display text differs from the actual href)."
+references:
+  - "https://github.com/sublime-security/sublime-rules/tree/main/detection-rules"
+type: rule
+severity: medium
+tags:
+  - "phishing"
+attack_types:
+  - "Credential Phishing"
+tactics_and_techniques:
+  - "Spoofing"
+detection_methods:
+  - "Header analysis"
+  - "URL analysis"
+source: |
+  type.inbound
+  and any(headers.hops, .authentication_results.dmarc =~ "fail")
+  and any(body.links, .mismatched)
