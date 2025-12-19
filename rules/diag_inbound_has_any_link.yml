@@ -1,4 +1,4 @@
-name: "DIAG inbound has any link"
+name: "KH_DIAG inbound has any link"
 description: "Diagnostic: triggers on any inbound message containing at least one link."
 type: rule
 severity: low
