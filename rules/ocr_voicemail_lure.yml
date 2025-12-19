@@ -1,5 +1,5 @@
-name: "Inbound OCR password reset lure"
-description: "Inbound message contains an image with OCR text indicating a password reset or expiration lure."
+name: "Inbound OCR password expired lure (attachment)"
+description: "Inbound email has an image attachment whose extracted text suggests a password expiration/reset lure."
 type: rule
 severity: medium
 
@@ -8,7 +8,11 @@ source: |
   and any(attachments,
     .file_extension in~ ("png", "jpg", "jpeg")
     and any(file.explode(.),
-      any(strings.icontains(.scan.ocr.raw), ["password", "credentials"])
-      and any(strings.icontains(.scan.ocr.raw), ["expire", "reset", "update"])
+      any(.scan.strings.strings, strings.ilike(., "*password*"))
+      and (
+        any(.scan.strings.strings, strings.ilike(., "*expire*"))
+        or any(.scan.strings.strings, strings.ilike(., "*reset*"))
+        or any(.scan.strings.strings, strings.ilike(., "*update*"))
+      )
     )
   )
