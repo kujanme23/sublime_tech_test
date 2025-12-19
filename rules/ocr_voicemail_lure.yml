@@ -1,0 +1,17 @@
+name: "Inbound OCR voicemail lure"
+description: "Inbound message contains an image whose OCR text suggests a voicemail lure (image-as-content)."
+type: rule
+severity: medium
+
+source: |
+  type.inbound
+  and any(attachments,
+    .file_extension in~ ("png", "jpg", "jpeg")
+    and any(file.explode(.),
+      strings.icontains(.scan.ocr.raw, "voicemail")
+      and (
+        strings.icontains(.scan.ocr.raw, "listen now")
+        or strings.icontains(.scan.ocr.raw, "secure portal")
+      )
+    )
+  )
