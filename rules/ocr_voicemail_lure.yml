@@ -1,5 +1,5 @@
-name: "Inbound OCR voicemail lure"
-description: "Inbound message contains an image whose OCR text suggests a voicemail lure (image-as-content)."
+name: "Inbound OCR password reset lure"
+description: "Inbound message contains an image with OCR text indicating a password reset or expiration lure."
 type: rule
 severity: medium
 
@@ -8,10 +8,7 @@ source: |
   and any(attachments,
     .file_extension in~ ("png", "jpg", "jpeg")
     and any(file.explode(.),
-      strings.icontains(.scan.ocr.raw, "voicemail")
-      and (
-        strings.icontains(.scan.ocr.raw, "listen now")
-        or strings.icontains(.scan.ocr.raw, "secure portal")
-      )
+      any(strings.icontains(.scan.ocr.raw), ["password", "credentials"])
+      and any(strings.icontains(.scan.ocr.raw), ["expire", "reset", "update"])
     )
   )
