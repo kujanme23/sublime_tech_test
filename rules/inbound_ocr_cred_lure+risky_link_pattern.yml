@@ -5,28 +5,26 @@ severity: high
 
 source: |
   type.inbound
-
-  # OCR signal from rendered message (Gmail-safe)
-  and any(file.explode(file.message_screenshot()),
-    strings.ilike(.scan.ocr.raw, "*password*")
-    or strings.ilike(.scan.ocr.raw, "*sign in*")
-    or strings.ilike(.scan.ocr.raw, "*login*")
-    or strings.ilike(.scan.ocr.raw, "*verify*")
+  and any(
+    file.explode(file.message_screenshot()),
+    (
+      strings.ilike(.scan.ocr.raw, "*password*")
+      or strings.ilike(.scan.ocr.raw, "*sign in*")
+      or strings.ilike(.scan.ocr.raw, "*login*")
+      or strings.ilike(.scan.ocr.raw, "*verify*")
+    )
+    and
+    (
+      strings.ilike(.scan.ocr.raw, "*expire*")
+      or strings.ilike(.scan.ocr.raw, "*expiration*")
+      or strings.ilike(.scan.ocr.raw, "*reset*")
+      or strings.ilike(.scan.ocr.raw, "*update*")
+      or strings.ilike(.scan.ocr.raw, "*immediately*")
+    )
   )
-  and any(file.explode(file.message_screenshot()),
-    strings.ilike(.scan.ocr.raw, "*expire*")
-    or strings.ilike(.scan.ocr.raw, "*expiration*")
-    or strings.ilike(.scan.ocr.raw, "*reset*")
-    or strings.ilike(.scan.ocr.raw, "*update*")
-    or strings.ilike(.scan.ocr.raw, "*immediately*")
-  )
-
-  # URL analysis signal (must have at least one)
-  and any(body.links,
+  and any(
+    body.links,
     .mismatched
     or .href_url.domain.root_domain in $url_shorteners
     or .href_url.domain.domain in $free_file_hosts
   )
-
-  # Optional: authentication failure boost (uncomment if you want it)
-  # and any(headers.hops, .authentication_results.dmarc =~ "fail")
