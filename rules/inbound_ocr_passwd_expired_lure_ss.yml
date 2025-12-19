@@ -1,4 +1,4 @@
-name: "Inbound OCR password expired lure (screenshot)"
+name: "KH_Inbound OCR password expired lure (screenshot)"
 description: "Runs OCR on a screenshot of the rendered message and detects password expiration/reset lures."
 type: rule
 severity: medium
