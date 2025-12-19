@@ -1,4 +1,4 @@
-name: "Inbound OCR password expired lure"
+name: "KH_Inbound OCR password expired lure"
 description: "Inbound email contains an image whose extracted/OCR text suggests a password expiration/reset lure."
 type: rule
 severity: medium
