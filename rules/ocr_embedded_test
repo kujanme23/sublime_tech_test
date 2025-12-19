@@ -1,0 +1,15 @@
+name: "Inbound OCR password expired lure (message screenshot)"
+description: "Inbound email’s rendered body (screenshot) contains OCR text consistent with a password expiration/reset lure."
+type: rule
+severity: medium
+
+source: |
+  type.inbound
+  and any(file.explode(file.message_screenshot()),
+    strings.ilike(.scan.ocr.raw, "*password*")
+    and (
+      strings.ilike(.scan.ocr.raw, "*expire*")
+      or strings.ilike(.scan.ocr.raw, "*reset*")
+      or strings.ilike(.scan.ocr.raw, "*update*")
+    )
+  )
