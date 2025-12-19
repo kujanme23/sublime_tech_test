@@ -1,4 +1,4 @@
-name: "Inbound free file host link"
+name: "Inbound free file host link (robust)"
 description: "Inbound email contains a link to a known free file hosting service."
 type: rule
 severity: medium
@@ -7,4 +7,5 @@ source: |
   type.inbound
   and any(body.links,
     .href_url.domain.domain in $free_file_hosts
+    or .href_url.domain.root_domain in $free_file_hosts
   )
