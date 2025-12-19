@@ -1,4 +1,4 @@
-name: "Inbound free file host link (robust)"
+name: "KH_Inbound free file host link (robust)"
 description: "Inbound email contains a link to a known free file hosting service."
 type: rule
 severity: medium
