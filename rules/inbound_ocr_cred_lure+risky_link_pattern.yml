@@ -1,4 +1,4 @@
-name: "Inbound OCR credential lure + risky link pattern"
+name: "KH_Inbound OCR credential lure + risky link pattern"
 description: "OCR on the rendered message indicates a credential lure and the message contains risky link infrastructure (shortener/free file host/mismatched link)."
 type: rule
 severity: high
