@@ -1,4 +1,4 @@
-name: "Attachment has auto-executing macro (unsolicited)"
+name: "KH_Attachment has auto-executing macro (unsolicited)"
 description: "Unsolicited inbound email contains an Office attachment with an auto-executing macro."
 type: rule
 severity: high
