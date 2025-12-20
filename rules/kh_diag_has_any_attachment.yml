@@ -1,0 +1,6 @@
+name: "DIAG has any attachment"
+type: rule
+severity: low
+
+source: |
+  length(attachments) > 0
