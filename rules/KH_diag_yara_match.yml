@@ -1,4 +1,4 @@
-name: "DIAG any YARA match on attachment"
+name: "KH_DIAG any YARA match on attachment"
 type: rule
 severity: low
 
