@@ -1,0 +1,10 @@
+name: "Attachment classified as malicious macro (ML)"
+description: "Inbound email contains an Office document classified by ML as a malicious macro."
+type: rule
+severity: high
+
+source: |
+  type.inbound
+  and any(attachments,
+    ml.macro_classifier(.).verdict == "malicious"
+  )
