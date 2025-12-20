@@ -1,0 +1,15 @@
+name: "Attachment contains VBA artifacts (strings)"
+description: "Explodes attachments and detects embedded VBA/macro artifacts using extracted strings."
+type: rule
+severity: medium
+
+source: |
+  type.inbound
+  and any(attachments,
+    .file_extension in~ ("docm","dotm","xlsm","xltm","pptm","ppsm","doc","xls","ppt","zip")
+    and any(file.explode(.),
+      any(.scan.strings.strings, strings.ilike(., "*Attribute VB_Name*"))
+      or any(.scan.strings.strings, strings.ilike(., "*VBAProject*"))
+      or any(.scan.strings.strings, strings.ilike(., "*ThisDocument*"))
+    )
+  )
