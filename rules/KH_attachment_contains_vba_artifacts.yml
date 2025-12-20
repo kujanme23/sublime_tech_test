@@ -1,4 +1,4 @@
-name: "Attachment contains VBA artifacts (strings)"
+name: "KH_Attachment contains VBA artifacts (strings)"
 description: "Explodes attachments and detects embedded VBA/macro artifacts using extracted strings."
 type: rule
 severity: medium
