@@ -1,0 +1,10 @@
+name: "KH_V2_DIAG attachment contains suspicious VBA strings"
+type: rule
+severity: low
+
+source: |
+  any(attachments,
+    any(file.explode(.),
+      any(.scan.strings.strings, strings.ilike(., "*WScript.Shell*"))
+    )
+  )
