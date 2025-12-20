@@ -1,0 +1,8 @@
+name: "DIAG any YARA match on attachment"
+type: rule
+severity: low
+
+source: |
+  any(attachments,
+    any(file.explode(.), length(.scan.yara.matches) > 0)
+  )
