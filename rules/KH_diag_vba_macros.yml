@@ -1,0 +1,9 @@
+name: "DIAG attachment has VBA macros"
+type: rule
+severity: low
+
+source: |
+  type.inbound
+  and any(attachments,
+    file.oletools(.).indicators.vba_macros.exists
+  )
