@@ -1,0 +1,12 @@
+name: "Attachment classified as malicious macro (ML) - high confidence"
+description: "Inbound email contains an Office attachment classified by ml.macro_classifier as malicious (high confidence)."
+type: rule
+severity: high
+
+source: |
+  type.inbound
+  and any(attachments,
+    .file_extension in~ ("doc", "docm", "docx", "dot", "dotm", "pptm", "ppsm", "xlm", "xls", "xlsb", "xlsm", "xlt", "xltm", "zip")
+    and ml.macro_classifier(.).malicious
+    and ml.macro_classifier(.).confidence in ("high")
+  )
