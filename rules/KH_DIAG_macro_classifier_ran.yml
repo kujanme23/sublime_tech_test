@@ -1,0 +1,8 @@
+name: "DIAG macro classifier ran"
+type: rule
+severity: low
+
+source: |
+  any(attachments,
+    ml.macro_classifier(.) is not null
+  )
