@@ -1,0 +1,8 @@
+name: "KH_DIAG oletools sees VBA macros"
+type: rule
+severity: low
+
+source: |
+  any(attachments,
+    file.oletools(.).indicators.vba_macros.exists
+  )
