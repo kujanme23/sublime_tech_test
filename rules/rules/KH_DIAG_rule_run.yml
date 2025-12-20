@@ -1,0 +1,6 @@
+name: "KH_DIAG playground rule runs"
+type: rule
+severity: low
+
+source: |
+  true
