@@ -1,4 +1,4 @@
-name: "DIAG attachment has VBA macros"
+name: "KH_DIAG attachment has VBA macros"
 type: rule
 severity: low
 
