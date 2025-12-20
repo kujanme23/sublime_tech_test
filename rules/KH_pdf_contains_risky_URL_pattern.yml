@@ -1,4 +1,4 @@
-name: "Attachment: PDF contains risky URL pattern"
+name: "KH_Attachment: PDF contains risky URL pattern"
 description: "Inbound email has a PDF attachment with embedded URLs that use URL shorteners or suspicious TLDs."
 type: rule
 severity: medium
