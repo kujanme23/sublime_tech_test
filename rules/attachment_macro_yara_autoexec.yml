@@ -1,0 +1,15 @@
+name: "KH_Attachment: macro autoexec indicators (YARA)"
+description: "Explodes macro-capable attachments and triggers when YARA detects auto-exec macro indicators + suspicious keywords."
+type: rule
+severity: high
+
+source: |
+  type.inbound
+  and any(attachments,
+    .file_extension in~ ("doc","docm","dot","dotm","xls","xlsm","xlt","xltm","ppt","pptm","ppsm","zip")
+    and any(file.explode(.),
+      any(.scan.yara.matches,
+        .rule == "Sublime_Test_Macro_Autoexec_With_Suspicious_Keywords"
+      )
+    )
+  )
