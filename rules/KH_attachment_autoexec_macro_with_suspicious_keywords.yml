@@ -1,4 +1,4 @@
-name: "Attachment has autoexec macro with suspicious keywords"
+name: "KH_Attachment has autoexec macro with suspicious keywords"
 description: "Inbound email contains an attachment with an auto-executing macro and suspicious VBA keywords often used for execution or downloaders."
 type: rule
 severity: high
