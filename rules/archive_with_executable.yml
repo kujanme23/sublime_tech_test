@@ -1,4 +1,4 @@
-name: "Inbound archive containing executable"
+name: "KH_Inbound archive containing executable"
 description: "Inbound email with an archive attachment that contains an executable file."
 type: rule
 severity: high
