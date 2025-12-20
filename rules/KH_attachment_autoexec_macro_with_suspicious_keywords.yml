@@ -1,0 +1,14 @@
+name: "Attachment has autoexec macro with suspicious keywords"
+description: "Inbound email contains an attachment with an auto-executing macro and suspicious VBA keywords often used for execution or downloaders."
+type: rule
+severity: high
+
+source: |
+  type.inbound
+  and any(attachments,
+    .file_extension in~ ("docm","dotm","xlsm","xltm","pptm","ppsm","doc","xls","ppt","zip")
+    and any(file.oletools(.).macros.keywords, .type =~ "autoexec")
+    and any(file.oletools(.).macros.keywords,
+      .keyword in~ ("Shell", "CreateObject", "WScript.Shell", "PowerShell", "cmd.exe", "URLDownloadToFile", "WinHttp", "XMLHTTP")
+    )
+  )
