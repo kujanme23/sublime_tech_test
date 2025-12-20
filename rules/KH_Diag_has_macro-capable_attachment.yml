@@ -1,0 +1,8 @@
+name: "DIAG has macro-capable attachment"
+type: rule
+severity: low
+
+source: |
+  any(attachments,
+    .file_extension in~ $file_extensions_macros
+  )
